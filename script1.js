@@ -21,36 +21,36 @@ addBookToLibrary("Brandon Sanderson", "Words of Radiance", 89, true);
 addBookToLibrary("Brandon Sanderson", "Oathbringer", 122, true);
 addBookToLibrary("Brandon Sanderson", "Rhythm of War", 117, true);
 addBookToLibrary("Brandon Sanderson", "Wind and Truth", 147, true);
-console.log(myLibrary);
-console.log(myLibrary.length);
 
-for (let counter = 0; counter < myLibrary.length; counter++) {
-  let newRow = document.createElement('tr');
-  let table = document.querySelector(".library");
-  table.appendChild(newRow);
-  let currentObject = myLibrary[counter];
+//console.log(myLibrary);
 
-  let currentObjAuthor = document.createElement('td');
-  currentObjAuthor.innerHTML = currentObject.author;
-  newRow.appendChild(currentObjAuthor);
+function renderTable() {
+  for (let book of myLibrary) { //loops through myLibrary - Value of 'book' is the book object
+    let libraryTable = document.querySelector(".library");
+    let newRow = document.createElement("tr");
 
-  let currentObjTitle = document.createElement('td');
-  currentObjTitle.innerHTML = currentObject.title;
-  newRow.appendChild(currentObjTitle);
+    for (let prop in book) {
+      let newData = document.createElement("td");
+      newData.innerHTML = book[prop];
+      newRow.appendChild(newData);
+    }
 
-  let currentObjChap = document.createElement('td');
-  currentObjChap.innerHTML = currentObject.chapters;
-  newRow.appendChild(currentObjChap);
-
-  let currentObjRead = document.createElement('td');
-  if (currentObject.read === true) {
-    currentObjRead.innerHTML = "Read";
-  } else {
-    currentObjRead.innerHTML = "Unread";
-  };
-  newRow.appendChild(currentObjRead);
-
-  let currentObjId = document.createElement('td');
-  currentObjId.innerHTML = currentObject.id;
-  newRow.appendChild(currentObjId);
+    
+    let removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    removeBtn.dataset.id = book.id;
+    removeBtn.addEventListener("click", removeBook);
+    newRow.appendChild(removeBtn);
+    
+    libraryTable.appendChild(newRow);
+  }
 }
+
+renderTable();
+
+function removeBook(event) {
+  let parent = document.querySelector(".library");
+  let ident = event.target;
+  let child = ident.parentNode;
+  parent.removeChild(child);
+};
